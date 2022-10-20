@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% if msg %}
+        <h2>{{msg}}</h2>
+    {% endif %}
+    {% for idx in artists %}
+        <h1> id : {{idx.artist.id}}</h1>
+        <h1> stage name : {{idx.artist.stageName}} </h1>
+        <h1> social link : {{idx.artist.socialLink}}</h1>
+        <h1>Albums : </h1>
+        <ul>
+            {% for album in idx.albums %}
+                <li>id : {{album.id}}</li>
+                <li>name : {{album.name}}</li>
+                <li>created at : {{album.created_at}}</li>
+                <li> release date : {{album.releaseDate}}</li>
+                <li> album cost : {{album.cost}}</li>
+                <li>-----</li>
+            {% endfor %}
+        </ul>
+        <br>
+    {% endfor %}
+</body>
+</html>
