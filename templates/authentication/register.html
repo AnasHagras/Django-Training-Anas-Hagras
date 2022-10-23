@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Register
+        </title>
+    </head>
+    <body>
+        <from action="registerAction" method = "post">
+            <input type = "text" name="username" placeholder="enter your username">
+            <input type = "password" name="password" placeholder="enter your password">
+            <input type="submit" value="Register">
+            <a href="{%url 'login'%}">already have account ? please login here</a>
+        </form>
+    </body>
+</html>

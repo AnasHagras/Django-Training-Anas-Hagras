@@ -5,7 +5,6 @@ from albums.models import Album
 
 from . import models
 
-
 class ArtistAdmin (admin.ModelAdmin):
     def albums_count(self, obj):
         return Album.objects.filter(Q(artist=obj)).filter(Q(is_approved = True)).count()

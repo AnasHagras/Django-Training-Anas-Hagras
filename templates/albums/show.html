@@ -5,9 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .msg{
+            color : red;
+            background-color : white ;
+            width : 50%;
+            text-align:center;
+            padding : 20px ;
+            font-size : 25px ;
+            border-radius : 40px ;
+            margin:auto;
+            border: 1px solid black;    
+            
+        }
+        *{
+            magin : 0px;
+            padding : 0px;
+        }
+    </style>
 </head>
 <body>
-    <h1>{{ msg }}</h1>
+    <div class = "msg">{{ msg }}</div>
     {% for album in albums %}
         <h1>{{album.name}}</h1>
         <h1>{{album.cost}}</h1>
