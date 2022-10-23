@@ -6,11 +6,19 @@
         </title>
     </head>
     <body>
-        <from action="loginAction" method = "post">
-            <input type = "text" name="username" placeholder="enter your username">
-            <input type = "password" name="password" placeholder="enter your password">
-            <input type="submit" value="Login">
-            <a href="{%url 'register'%}">new to website ? register here</a>
-        </form>
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}">logout</a>
+        {% else %}
+            {%if msg%}
+                <h3>{{msg}}</h3>
+            {%endif%}
+            <form method = "POST" action="{% url 'loginAction' %}">
+                {% csrf_token %}
+                <input type = "text" name="username" placeholder="enter your username">
+                <input type = "password" name="password" placeholder="enter your password">
+                <input type="submit" value="Login" name="submit">
+                <a href="{%url 'register'%}">new to website ? register here</a>
+            </form>
+        {% endif %}
     </body>
 </html>

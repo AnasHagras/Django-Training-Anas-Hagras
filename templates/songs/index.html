@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    </style>
+</head>
+<body> 
+    <div class = "msg">{{ msg }}</div>
+    {% for song in songs %}
+        <h1>Song : [{{song.name}}], From Album : [{{song.album}}] , Artist : [{{song.album.artist}}]</h1>
+        <img width="200px" height = "150px" src="{{song.song_image.url}}" alt="Song-Photo">
+        </img>
+        <br>
+        <audio controls>
+            <source src="{{song.song_audio.url}}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <br>
+    {% endfor %}
+    <br>
+    {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}">logout</a>
+    {% else %}
+    <a href="{% url 'login'%}">login</a>    
+    <a href="{% url 'register'%}">Register</a>    
+    {% endif %}
+</body>
+</html>

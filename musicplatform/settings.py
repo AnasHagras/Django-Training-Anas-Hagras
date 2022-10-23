@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'artists',
     'albums',
-    'authentication'
+    'authentication',
+    'imagekit'
 ]
 
 MIDDLEWARE = [
@@ -120,6 +121,13 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = "assets/"
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'uploads'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

@@ -31,16 +31,23 @@ class Index(View):
         return render(request,"artists/index.html",self.getData(data = kwargs['data']['msg']))
          
     def get(self,request,*args,**kwargs):
-        return render(request,"artists/index.html",self.getData())
+        return render(request,"artists/index.html",self.getData(data = ''))
 
 class Create(View):
     def get(self ,request,*args , **kwargs):
-        try :
-            return render(request,"artists/create.html",{"msg":kwargs['msg'].items()})
-        except :
-            return render(request,"artists/create.html")
+        if request.user.is_authenticated:
+            try :
+                return render(request,"artists/create.html",{"msg":kwargs['msg'].items()})
+            except :
+                return render(request,"artists/create.html")
+        else :
+            return render(request,"authentication/login.html",{"msg":"Please Login First"})      
+            
     def post(self,request,*args,**kwargs):
-        return render(request,"artists/create.html",{"msg":kwargs['data'].items()})      
+        if request.user.is_authenticated :
+            return render(request,"artists/create.html",{"msg":kwargs['data'].items()})
+        else :
+            return render(request,"authentication/login.html",{"msg":"Please Login First"})      
 class Store(View):
     def post(self,request,*args , **kwargs):
         artist = Artist()
