@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Register
+        </title>
+    </head>
+    <body>
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}">logout</a>
+        {% else %} 
+            {%if msg%}
+            <h3>{{msg}}</h3>
+            {%endif%}
+            <form action="{% url 'registerAction' %}" method = "post">
+                {% csrf_token %}
+                <input type = "text" name="username" placeholder="enter your username">
+                <input type = "password" name="password" placeholder="enter your password">
+                <input type = "password" name="password2" placeholder="repeat password">
+                <input type="submit" value="Register">
+                <a href="{%url 'login'%}">already have account ? please login here</a>
+            </form>
+        {% endif %}
+    </body>
+</html>
