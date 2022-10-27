@@ -42,10 +42,7 @@ INSTALLED_APPS = [
     'albums',
     'authentication',
     'rest_framework',
-    'testest',
     'imagekit'
-    # 'imagekit'
-    # 'imagekit'
 ]
 
 MIDDLEWARE = [
