@@ -3,8 +3,8 @@ from django.utils import timezone
 from model_utils import Choices
 from model_utils.fields import StatusField
 from model_utils.models import StatusModel
-from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill
+# from imagekit.models import ImageSpecField
+# from imagekit.processors import ResizeToFill
 
 from artists.models import Artist
 
@@ -27,11 +27,11 @@ class Album(TimeStampedModel):
     
 class Song(TimeStampedModel):
     name = models.CharField(max_length = 50, default="")
-    song_image = models.ImageField(upload_to='songs/photos')
-    song_thumbnail = ImageSpecField(source='song_image',
-                                      processors=[ResizeToFill(100, 50)],
-                                      format='JPEG',
-                                      options={'quality': 100})
+    # song_image = models.ImageField(upload_to='songs/photos')
+    # song_thumbnail = ImageSpecField(source='song_image',
+    #                                   processors=[ResizeToFill(100, 50)],
+    #                                   format='JPEG',
+    #                                   options={'quality': 100})
     song_audio = models.FileField(upload_to="songs/files")
     album = models.ForeignKey( Album,on_delete = models.CASCADE,default = None)
     def __str__(self):

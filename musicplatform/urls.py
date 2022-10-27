@@ -23,7 +23,8 @@ urlpatterns = [
     path('artists/',include("artists.urls")),
     path('',include("albums.urls")),
     path('user/',include("authentication.urls")),
-    path('api-auth/',include("rest_framework.urls"))
+    path('api-auth/',include("rest_framework.urls")),
+    path('fuck/',include("testest.urls"))
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
