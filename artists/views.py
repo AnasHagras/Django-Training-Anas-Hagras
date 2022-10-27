@@ -11,6 +11,13 @@ from .models import Artist
 
 from django.http import HttpResponse
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import authentication, permissions
+from django.contrib.auth.models import User
+
+from .serializers.ArtistSerializer import ArtistSerializer
+
 class Index(View):
     def getData(self ,*args, **kwargs):
         artists = []
@@ -67,4 +74,21 @@ class Store(View):
     def get(request,*args,**kwargs):
         return HttpResponse("Page Not Found")
         
+class ArtistsAPI(APIView):
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = []
+    
+    def get(self,request,*args,**kwargs):
+        artists = Artist.objects.all()
+        serializer = ArtistSerializer(artists, many = True)
+        return Response(serializer.data)
 
+    def post(self,request,*args,**kwargs):
+        serializer = ArtistSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else :
+            return Response(serializer.errors)
+    
+    
