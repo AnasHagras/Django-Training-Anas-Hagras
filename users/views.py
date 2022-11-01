@@ -5,10 +5,16 @@ from rest_framework.views import APIView
 from django.http import Http404
 from users.models import User
 from users.serializers import UserSerializer
+from rest_framework.decorators import authentication_classes
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.decorators import api_view
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
+from .permissions import UserPermission
 # Create your views here.
 class UserApi(APIView):
-    permission_classes = []
-    authentication_classes = []
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = [IsAuthenticated|UserPermission]
     def get(self,request,pk,*args,**kwargs):
         try:
             user = User.objects.get(pk=pk)
