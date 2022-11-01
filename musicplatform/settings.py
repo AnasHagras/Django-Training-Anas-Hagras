@@ -40,9 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'artists',
     'albums',
-    'authentication',
     'rest_framework',
-    'imagekit'
+    'imagekit',
+    'users',
+    'authentication',
+    'knox'
 ]
 
 MIDDLEWARE = [
@@ -110,6 +112,9 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES' :[
+        'knox.auth.TokenAuthentication',
     ]
 }
 
@@ -142,3 +147,5 @@ MEDIA_ROOT = BASE_DIR / 'uploads'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'users.User'
