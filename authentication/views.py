@@ -11,6 +11,7 @@ from knox.views import LoginView as KnoxLoginView
 from knox.models import AuthToken
 
 class Login(KnoxLoginView):
+    authentication_classes = [authentication.TokenAuthentication]
     permission_classes = (permissions.AllowAny,)
     def post (self,request):
         serializer = AuthTokenSerializer(data=request.data)
@@ -23,37 +24,42 @@ class Login(KnoxLoginView):
             return Response({
                 'token' : token[1],
                 'user' : UserSerializer(user).data
-            })
+            },status=200)
         except :
-            return Response("Invalid Login")
+            return Response("Invalid Login",status=403)
 
 
 class Register(generics.GenericAPIView):
 
-    authentication_classes = [authentication.TokenAuthentication]
     permission_classes = []
     serializer_class = RegisterSerializer
     lookup_field = User
     def post (self,request,*args,**kwargs):
         serializer = self.get_serializer(data=request.data)
-        try:
-            username = request.data['username']
-            email = request.data['email']
-            password = request.data['password']
-            password2 = request.data['password2']
-        except :
-            return Response("All Fields Are Required")
-        if password == password2:
-            try :
-                serializer.is_valid(raise_exception = True)
-                user = serializer.save()
-                return Response({
-                    "user" : UserSerializer(user,context = self.get_serializer_context()).data,
-                    "token" : AuthToken.objects.create(user)[1]
-                })
-            except Exception as e:
-                return Response("Validation Error!")
-        else :
-            return Response("Password Doesn't Match")
+        serializer.is_valid(raise_exception = True)
+        user = serializer.save()
+        print("Before")
+        return Response({
+            "user" : UserSerializer(user,context = self.get_serializer_context()).data,
+            "token" : AuthToken.objects.create(user)[1]
+        },status=200)
+        # try :
+            
+        # except:
+        #     return Response("Validation Error!" , status=400)
+        # try:
+        #     username = request.data['username']
+        #     email = request.data['email']
+        #     password = request.data['password']
+        #     password2 = request.data['password2']
+        # except :
+        #     return Response("All Fields Are Required",status=400)
+        # if password == password2:
+        #     try :
+                
+        #     except Exception as e:
+        #         return Response("Validation Error!",status=400)
+        # else :
+        #     return Response("Password Doesn't Match",status=400)
 
 
