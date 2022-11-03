@@ -4,7 +4,7 @@ from users.serializers import UserSerializer
 
 @pytest.fixture
 def auth_client(user = None):
-    client = APIClient()
+    client = APIClient(enforce_csrf_checks=True)
     if user is None:
         user = client.post("/authentication/register/",
             {"username":"asdfasdf",

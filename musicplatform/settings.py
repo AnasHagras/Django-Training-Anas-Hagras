@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'imagekit',
     'users',
     'authentication',
-    'knox'
+    'knox',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -115,8 +116,13 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES' :[
         'knox.auth.TokenAuthentication',
-    ]
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 3,
+    'DATE_INPUT_FORMATS' : ("%d/%m/%Y %H:%M:%S",),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
+
 
 
 # Internationalization

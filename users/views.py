@@ -15,7 +15,7 @@ class UserApi(APIView):
     def get(self,request,pk,*args,**kwargs):
         try:
             user = User.objects.get(pk=pk)
-            return Response(UserSerializer(user).data)
+            return Response(UserSerializer(user).data,status=200)
         except User.DoesNotExist:
             return Response(status=404,data="User Not Found")
     def put(self,request,pk):
