@@ -10,6 +10,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from .filters import AlbumFilter
+from .tasks import add
 class AlbumList(generics.ListAPIView):
     permission_classes = []
     authentication_classes = []
@@ -51,4 +52,6 @@ class CreateAlbum(generics.CreateAPIView):
     serializer_class = AlbumCreateSerializer
         
 
-
+def CeleryTest(request):
+    add.delay()
+    return HttpResponse("Done")
