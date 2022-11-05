@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import generics,authentication, permissions
+from rest_framework import generics, permissions
 from users.models import User
 from users.serializers import RegisterSerializer,UserSerializer
 from json import JSONEncoder,JSONDecoder
@@ -10,9 +10,13 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.views import LoginView as KnoxLoginView
 from knox.models import AuthToken
 
+from rest_framework.response import Response
+
+from knox.auth import TokenAuthentication
+
 class Login(KnoxLoginView):
-    authentication_classes = [authentication.TokenAuthentication]
     permission_classes = (permissions.AllowAny,)
+    authentication_classes = [TokenAuthentication,]
     def post (self,request):
         serializer = AuthTokenSerializer(data=request.data)
         try:
@@ -20,7 +24,6 @@ class Login(KnoxLoginView):
             user = serializer.validated_data['user']
             token = AuthToken.objects.create(user)
             login(request,user)
-            print(request.user)
             return Response({
                 'token' : token[1],
                 'user' : UserSerializer(user).data
@@ -30,12 +33,13 @@ class Login(KnoxLoginView):
 
 
 class Register(generics.GenericAPIView):
-
-    permission_classes = []
+    permission_classes = (permissions.AllowAny,)
+    authentication_classes = []
     serializer_class = RegisterSerializer
     lookup_field = User
     def post (self,request,*args,**kwargs):
         serializer = self.get_serializer(data=request.data)
+        print("FFF")
         serializer.is_valid(raise_exception = True)
         user = serializer.save()
         return Response({

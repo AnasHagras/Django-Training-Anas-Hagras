@@ -5,13 +5,13 @@ from rest_framework.views import APIView
 from django.http import Http404
 from users.models import User
 from users.serializers import UserSerializer
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .permissions import UserPermission
+from knox.auth import TokenAuthentication
 
 class UserApi(APIView):
+    permission_classes = [IsAuthenticated,]
     authentication_classes = (TokenAuthentication,)
-    permission_classes = [IsAuthenticated|UserPermission]
     def get(self,request,pk,*args,**kwargs):
         try:
             user = User.objects.get(pk=pk)

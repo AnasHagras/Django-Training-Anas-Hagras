@@ -6,10 +6,10 @@ from artists.models import Artist
 from users.models import User
 from ..models import Album
 class TestSerializer:
-    def test_serializer_success(self):
-        user = User.objects.create_user(username="asdfasdf",password="asdfasdF1!")
+    def test_serializer_success(self,auth_client):
+        client,_ = auth_client()
         artist = Artist()
-        artist.user = user
+        artist.user = User.objects.get(id=_)
         artist.stageName = "test"
         artist.socialLink = "https://facebook.com/5465"
         artist.save()
@@ -39,10 +39,10 @@ class TestSerializer:
         })
         assert album.is_valid() == False
 
-    def test_deserializer_success(self):
-        user = User.objects.create_user(username="asdfasdf",password="asdfasdF1!")
+    def test_deserializer_success(self,auth_client):
+        client , _ = auth_client()
         artist = Artist()
-        artist.user = user
+        artist.user = User.objects.get(id=_)
         artist.stageName = "test"
         artist.socialLink = "https://facebook.com/5465"
         artist.save()

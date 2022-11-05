@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'knox',
     'django_filters',
     'django_celery_results',
+    'rest_framework.authtoken',
+    'rest_auth'
 ]
 
 MIDDLEWARE = [
