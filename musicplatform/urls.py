@@ -20,11 +20,11 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('artists/',include("artists.urls")),
+    path('api/',include("artists.urls")),
     path('',include("albums.urls")),
-    path('user/',include("authentication.urls")),
     path('api-auth/',include("rest_framework.urls")),
-    path('fuck/',include("testest.urls"))
+    path('authentication/',include("authentication.urls")),
+    path('users/',include("users.urls")),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
