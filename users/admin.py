@@ -15,7 +15,7 @@ class CustomUserChangeFrom(UserChangeForm):
 class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeFrom
     model = User
-    list_display = ['username', 'email', 'first_name', 'last_name', 'is_staff', 'bio']
+    list_display = ['username', 'email', 'first_name', 'last_name', 'is_staff', 'bio','id']
     fieldsets = UserAdmin.fieldsets + (
         ("User's Bio", {'fields': ('bio',)}),
     )

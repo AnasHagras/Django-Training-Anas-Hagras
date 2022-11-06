@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Album
 from artists.serializers.ArtistSerializer import ArtistSerializer
+
 class AlbumSerializer(serializers.ModelSerializer):
     artist = ArtistSerializer(many=False,read_only=True)
     class Meta :

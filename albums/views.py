@@ -10,7 +10,8 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from knox.auth import TokenAuthentication
 from .filters import AlbumFilter
-from .tasks import add
+from artists.serializers.ArtistSerializer import ArtistSerializer
+
 class AlbumList(generics.ListAPIView):
     permission_classes = []
     authentication_classes = []
@@ -47,11 +48,7 @@ class AlbumListManual(generics.ListAPIView):
 
 class CreateAlbum(generics.CreateAPIView):
     authentication_classes = (TokenAuthentication,)
-    permission_classes = [IsAuthenticated,]
+    permission_classes = []
     serializer_class = AlbumCreateSerializer
     model = Album
         
-
-def CeleryTest(request):
-    add.delay()
-    return HttpResponse("Done")
