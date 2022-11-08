@@ -11,24 +11,29 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 import os
+import environ
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, True)
+)
+READ_DOT_ENV_FILE = env.bool('READ_DOT_ENV_FILE', default=False)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(kr^#0kx(+@kyem9ilup*rh@t1b!ml1tckw3jh&zw0&@nhc*t!'
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-
+    
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,7 +49,12 @@ INSTALLED_APPS = [
     'imagekit',
     'users',
     'authentication',
-    'knox'
+    'knox',
+    'django_filters',
+    'django_celery_results',
+    'rest_framework.authtoken',
+    'rest_auth',
+    'django_celery_beat'
 ]
 
 MIDDLEWARE = [
@@ -115,20 +125,23 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES' :[
         'knox.auth.TokenAuthentication',
-    ]
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 3,
+    'DATE_INPUT_FORMATS' : ("%d/%m/%Y %H:%M:%S",),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Istanbul'
 
 USE_I18N = True
 
-USE_TZ = False
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -148,4 +161,24 @@ MEDIA_ROOT = BASE_DIR / 'uploads'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = env("MAIN_USER_MODEL")
+
+
+CELERY_CONF_BROKER_URL = "redis://127.0.0.1:6379/0"
+CELERY_CONF_ACCEPT_CONTENT = ['application/json']
+CELERY_CONF_RESULT_SERIALIZER = 'json'
+CELERY_CONF_TASK_SERIALIZER = 'json'
+CELERY_CONF_RESULT_BACKEND = 'django-db'
+CELERY_CONF_CACHE_BACKEND = 'django-cache'
+CELERY_CONF_TASK_TRACK_STARTED = True
+CELERY_CONF_TASK_TIME_LIMIT = 30 * 60
+CELERY_CONF_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
+
+EMAIL_HOST=env("EMAIL_HOST")
+EMAIL_HOST_USER=env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD=env("EMAIL_HOST_PASSWORD")
+EMAIL_BACK_END=env("EMAIL_BACK_END")
+EMAIL_USE_TLS=env("EMAIL_USE_TLS")
+EMAIL_HOST=env("EMAIL_HOST")
+EMAIL_PORT=env("EMAIL_PORT")
+DEFAULT_FROM_EMAIL=env("DEFAULT_FROM_EMAIL")

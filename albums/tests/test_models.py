@@ -2,6 +2,7 @@ import pytest
 from ..models import Album,Song
 from artists.models import Artist
 from datetime import datetime
+from rest_framework.test import APIClient
 pytestmark = pytest.mark.django_db
 
 class TestAlbums:
@@ -29,3 +30,5 @@ class TestAlbums:
         album.releaseDate = datetime.strptime("12/11/2023 09:15:32",  "%d/%m/%Y %H:%M:%S")
         album.save()
         assert len(Album.objects.all()) == 1
+
+    
